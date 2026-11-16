@@ -19,8 +19,8 @@ constexpr const char* kCategory = "orbit";
 constexpr f32 kArenaRadius = 20.0f;
 constexpr f32 kOrbPickupRadius = 1.5f;
 
-constexpr Vec3 kFloorColor{0.10f, 0.12f, 0.17f};
-constexpr Vec3 kRimColor{0.16f, 0.22f, 0.30f};
+constexpr Vec3 kFloorColor{0.34f, 0.37f, 0.44f};
+constexpr Vec3 kRimColor{0.22f, 0.29f, 0.40f};
 constexpr Vec3 kShipColor{0.30f, 0.75f, 0.92f};
 constexpr Vec3 kOrbColor{0.98f, 0.78f, 0.22f};
 constexpr Vec3 kHazardColor{0.86f, 0.24f, 0.30f};
@@ -46,13 +46,15 @@ void OrbitGame::OnStartup(GameServices& services) {
     VALGO_ASSERT(services.renderer != nullptr, "renderer service missing");
 
     valgo::render::RenderSettings& settings = services.renderer->settings();
-    settings.ambient_sky = Vec3{0.30f, 0.38f, 0.52f};
-    settings.ambient_ground = Vec3{0.10f, 0.12f, 0.18f};
-    settings.fog_color = Vec3{0.12f, 0.15f, 0.22f};
-    settings.fog_start = 30.0f;
-    settings.fog_end = 90.0f;
+    settings.ambient_sky = Vec3{0.36f, 0.42f, 0.54f};
+    settings.ambient_ground = Vec3{0.16f, 0.17f, 0.22f};
+    settings.fog_color = Vec3{0.40f, 0.46f, 0.56f};
+    settings.sky_zenith = Vec3{0.18f, 0.30f, 0.52f};
+    settings.sky_horizon = Vec3{0.55f, 0.62f, 0.72f};
+    settings.fog_start = 45.0f;
+    settings.fog_end = 120.0f;
     settings.default_light_direction = Vec3{-0.5f, -1.0f, -0.6f};
-    settings.default_light_intensity = 0.45f;
+    settings.default_light_intensity = 0.6f;
 
     BuildArena(services);
 
@@ -74,10 +76,10 @@ void OrbitGame::OnStartup(GameServices& services) {
 
 void OrbitGame::BuildArena(GameServices& services) {
     valgo::scene::Scene& scene = *services.scene;
-    const valgo::render::MeshGpuData* cylinder = services.assets->GetPrimitive("cylinder");
-
-    // Arena floor: a wide, flat cylinder.
-    CreateMeshEntity(scene, cylinder, Vec3{0.0f, -0.2f, 0.0f}, Vec3{kArenaRadius * 2.2f, 0.4f, kArenaRadius * 2.2f},
+    // Engine primitives are explicit about their shape: the cylinder is an open
+    // side wall, so a walkable floor is a (subdivided) plane.
+    const valgo::render::MeshGpuData* floor = services.assets->GetPrimitive("plane");
+    CreateMeshEntity(scene, floor, Vec3{0.0f, 0.0f, 0.0f}, Vec3{kArenaRadius * 1.45f, 1.0f, kArenaRadius * 1.45f},
                      valgo::render::Material::MakeSolid(kFloorColor));
 
     // Rim pillars double as the physical boundary and as visual landmarks.
@@ -221,9 +223,9 @@ void OrbitGame::OnUpdate(const GameFrame& frame, GameServices& services) {
     // --- Camera: a fixed chase view of the arena -------------------------
     if (services.camera != nullptr) {
         const Vec3 focus = ship_position_;
-        services.camera->SetPosition(focus + Vec3{0.0f, 17.0f, 15.0f});
-        services.camera->LookAt(focus + Vec3{0.0f, 0.0f, 1.0f});
-        services.camera->SetPerspectiveFov(52.0f);
+        services.camera->SetPosition(focus + Vec3{0.0f, 12.5f, 16.0f});
+        services.camera->LookAt(focus + Vec3{0.0f, 0.0f, 2.0f});
+        services.camera->SetPerspectiveFov(58.0f);
     }
 
     // --- Ship transform + engine debug draw ------------------------------

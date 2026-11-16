@@ -550,7 +550,7 @@ void SoftwareCommandList::FillSky() {
     const Mat4 inverse_view_projection = frame_.view_projection.Inverse();
     const Vec3 horizon = ToVec3(frame_.sky_horizon);
     const Vec3 zenith = ToVec3(frame_.sky_zenith);
-    const Vec3 ground = Vec3{horizon.x * 0.18f, horizon.y * 0.19f, horizon.z * 0.21f};
+    const Vec3 ground = Vec3{horizon.x * 0.5f, horizon.y * 0.52f, horizon.z * 0.58f};
 
     for (u32 y = 0; y < target_->height; ++y) {
         const f32 ndc_y = 1.0f - (static_cast<f32>(y) + 0.5f) / static_cast<f32>(target_->height) * 2.0f;

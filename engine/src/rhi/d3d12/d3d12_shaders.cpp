@@ -164,7 +164,7 @@ float4 PSSky(SkyVSOutput input) : SV_Target
     float up = direction.y;
     float3 horizon = gSkyHorizon.rgb;
     float3 zenith = gSkyZenith.rgb;
-    float3 ground = horizon * float3(0.18, 0.19, 0.21);
+    float3 ground = horizon * float3(0.5, 0.52, 0.58);
 
     float3 rgb;
     if (up >= 0.0)

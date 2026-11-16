@@ -76,9 +76,17 @@ Planned work, in dependency order:
 
 1. **Windows compile of the D3D12 backend** and a validation-layer pass. This is
    the only M1 deliverable not exercised by CI; it must be closed before M2.
-2. View-model clipping fix at close range (M2 material/shadow work changes the
+2. **Orbit Runner backdrop reads too dark.** The FPS range renders a correct
+   sky gradient, but from Orbit's steeper camera the upper half of the frame is
+   nearly black with the floor's mid-distance band darker than its near band.
+   Fog constants, sky constants and the camera transform have all been checked
+   from inside the software backend and are correct, so the next step is a
+   draw-call capture (which entity covers those pixels) rather than another
+   colour tweak. Cosmetic only: gameplay, physics and the reuse tests are
+   unaffected.
+3. View-model clipping fix at close range (M2 material/shadow work changes the
    near-plane story, so it is scheduled with it).
-3. Camera polish: landing dip, lean roll and sprint sway already behave; add
+4. Camera polish: landing dip, lean roll and sprint sway already behave; add
    settings-driven sensitivity and FOV options.
 
 ## Milestone checklist (run at the end of every milestone)
