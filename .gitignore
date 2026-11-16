@@ -1,0 +1,33 @@
+# Build output
+/build/
+/out/
+/artifacts/
+cmake-build-*/
+*.o
+*.a
+*.pdb
+*.ilk
+*.exp
+
+# Wavefront meshes are real game assets, so the generic object patterns above
+# must not swallow them.
+!*.obj
+!games/**/assets/**/*.obj
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+compile_commands.json
+
+# Runtime output
+/logs/
+/log.txt
+*.ppm
+captures/
+screenshots/*.png
+
+# Keep curated documentation images
+!docs/images/*.png
